@@ -3,6 +3,10 @@
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "../vendor/imgui_impl_glfw.h"
 #include "../vendor/imgui_impl_opengl3.h"
 #include "../vendor/imgui_impl_opengl3_loader.h"
@@ -10,6 +14,11 @@
 #define GLSL_VERSION "#version 330"
 
 int main() {
+    // hide terminal on windows
+    #ifdef _WIN32
+    ShowWindow(GetConsoleWindow(), SW_HIDE);
+    #endif
+    
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
