@@ -1,4 +1,5 @@
 tmp
 ini
 build/*
+WIN/build/*
 buildwin
