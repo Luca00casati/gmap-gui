@@ -4,13 +4,23 @@ project(gmap-gui)
 set(CMAKE_CXX_STANDARD 20)
 set(LIBRARIES_DIR lib)
 
-add_executable(gmap-gui
-        vendor/imgui_impl_glfw.h
-        vendor/imgui_impl_glfw.cpp
-        vendor/imgui_impl_opengl3.h
-        vendor/imgui_impl_opengl3.cpp
-        vendor/imgui_impl_opengl3_loader.h
-        src/main.cpp)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os -DNDEBUG")
+
+set(SRC_FILES
+    src/main.cpp
+)
+
+set(VENDOR_FILES
+    vendor/imgui_impl_glfw.h
+    vendor/imgui_impl_glfw.cpp
+    vendor/imgui_impl_opengl3.h
+    vendor/imgui_impl_opengl3.cpp
+    vendor/imgui_impl_opengl3_loader.h
+)
+
+add_executable(gmap-gui ${SRC_FILES} ${VENDOR_FILES})
 
 # glfw
 set(GLFW_DIR "${LIBRARIES_DIR}/glfw")
@@ -34,3 +44,9 @@ add_library("imgui"
 target_include_directories("imgui" PRIVATE "${IMGUI_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${IMGUI_DIR}/include")
 target_link_libraries(${PROJECT_NAME} "imgui" "${CMAKE_DL_LIBS}")
+
+# Windows-specific options
+if(WIN32)
+    # disable console
+    set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE ON)
+endif()
