@@ -1,4 +1,4 @@
 tmp
-build/*
-WIN/build/*
+build
+WIN/build
 buildwin

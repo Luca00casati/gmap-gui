@@ -1,5 +1,7 @@
 #include <iostream>
 
+//#include <nfd.h>
+
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 
@@ -44,11 +46,15 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        ImGui::ShowDemoWindow(nullptr);
+
+        /*
         ImGui::Begin("Window");
         {
             ImGui::Text("Hello, Dear ImGUI!");
         }
         ImGui::End();
+        */
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
