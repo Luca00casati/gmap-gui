@@ -41,6 +41,7 @@ add_library("imgui"
         "${IMGUI_DIR}/src/imgui_demo.cpp"
         "${IMGUI_DIR}/src/imgui_tables.cpp"
         "${IMGUI_DIR}/src/imgui_widgets.cpp")
+target_include_directories("imgui" PRIVATE "${IMGUI_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${IMGUI_DIR}/include")
 target_link_libraries(${PROJECT_NAME} "imgui" "${CMAKE_DL_LIBS}")
 
@@ -48,7 +49,7 @@ target_link_libraries(${PROJECT_NAME} "imgui" "${CMAKE_DL_LIBS}")
 set(NFD_DIR "${LIBRARIES_DIR}/nfd")
 add_library("nfd"
         "${NFD_DIR}/src/nfd_common.c")
-target_include_directories(${PROJECT_NAME} PRIVATE "${NFD_DIR}/include")
+target_include_directories("nfd" PRIVATE "${NFD_DIR}/include")
 target_link_libraries(${PROJECT_NAME} "nfd" "${CMAKE_DL_LIBS}")
 
 if (WIN32)
@@ -56,7 +57,8 @@ if (WIN32)
 elseif (APPLE)
     target_sources(nfd PRIVATE "${NFD_DIR}/src/nfd_cocoa.m")
 elseif (UNIX)
-    target_sources(nfd PRIVATE "${NFD_DIR}/src/nfd_gtk.c" "${NFD_DIR}/src/nfd_zenity.c")
+    target_sources(nfd PRIVATE # i want use zenity "${NFD_DIR}/src/nfd_gtk.c" 
+    "${NFD_DIR}/src/nfd_zenity.c")
 endif()
 
 # Windows-specific options
