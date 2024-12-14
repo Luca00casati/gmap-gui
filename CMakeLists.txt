@@ -10,6 +10,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "-Os -DNDEBUG")
 
 set(SRC_FILES
     src/main.cpp
+    src/utils.cpp
+    src/include/utils.hpp
 )
 
 set(VENDOR_FILES

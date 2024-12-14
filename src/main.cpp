@@ -1,7 +1,8 @@
 #include <iostream>
 using namespace std;
 
-#include <nfd.h>
+//#include <nfd.h>
+#include "include/utils.hpp"
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -11,23 +12,6 @@ using namespace std;
 #include "../vendor/imgui_impl_opengl3_loader.h"
 
 #define GLSL_VERSION "#version 330"
-
-nfdchar_t* chosefile() {
-    nfdchar_t *outPath = NULL;
-    nfdresult_t result = NFD_OpenDialog(NULL, NULL, &outPath);
-
-    if (result == NFD_OKAY) {
-        //puts("Success!");
-        //puts(outPath);
-        return outPath;
-    } else if (result == NFD_CANCEL) {
-        //puts("User pressed cancel.");
-        return NULL;
-    } else {
-        printf("Error: %s\n", NFD_GetError());
-    }
-    return NULL;
-}
 
 int main()
 {
