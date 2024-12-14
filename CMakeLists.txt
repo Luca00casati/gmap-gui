@@ -57,8 +57,7 @@ if (WIN32)
 elseif (APPLE)
     target_sources(nfd PRIVATE "${NFD_DIR}/src/nfd_cocoa.m")
 elseif (UNIX)
-    target_sources(nfd PRIVATE # i want use zenity "${NFD_DIR}/src/nfd_gtk.c" 
-    "${NFD_DIR}/src/nfd_zenity.c")
+    target_sources(nfd PRIVATE "${NFD_DIR}/src/nfd_zenity.c")
 endif()
 
 # Windows-specific options

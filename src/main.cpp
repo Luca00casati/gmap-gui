@@ -18,8 +18,11 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *window = glfwCreateWindow(600, 600, "Hello, ImGUI!",
-                                          nullptr, nullptr);
+    GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
+
+    GLFWwindow *window = glfwCreateWindow(mode->width, mode->height, "Hello, ImGUI!",
+                                        nullptr, nullptr);
     if (window == nullptr) {
         std::cout << "Could not create GLFW window" << std::endl;
         glfwTerminate();
@@ -32,7 +35,6 @@ int main() {
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.IniFilename = nullptr;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 
