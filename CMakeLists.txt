@@ -50,6 +50,7 @@ set(NFD_DIR "${LIBRARIES_DIR}/nfd")
 add_library("nfd"
         "${NFD_DIR}/src/nfd_common.c")
 target_include_directories("nfd" PRIVATE "${NFD_DIR}/include")
+target_include_directories(${PROJECT_NAME} PRIVATE "${NFD_DIR}/include")
 target_link_libraries(${PROJECT_NAME} "nfd" "${CMAKE_DL_LIBS}")
 
 if (WIN32)
