@@ -2,7 +2,7 @@
 using namespace std;
 
 //#include <nfd.h>
-#include "include/utils.hpp"
+#include "include/common.hpp"
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -43,7 +43,10 @@ int main()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 
-    nfdchar_t *file = nullptr;
+    nfdchar_t *Strings_File = nullptr;
+    string Strings_Text = "";
+    bool Strings_Loaded = false;
+    int Strings_MinLength = 5;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -56,31 +59,54 @@ int main()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // ImGui::ShowDemoWindow(nullptr);
+        //#define DEMO
 
-        ImGui::Begin("Window");
-        {
-            ImGui::Text("Hello, Dear ImGUI!");
-            if (ImGui::Button("file"))
-            {
-                if (file)
-                {
-                    free(file);
-                    file = nullptr;
+        #ifdef DEMO
+        ImGui::ShowDemoWindow(nullptr);
+        #endif
+
+        #ifndef DEMO
+        ImGui::SetNextWindowSize(ImVec2(250, 400), ImGuiCond_FirstUseEver);
+        ImGui::Begin("Strings");
+        {            
+            if (ImGui::InputInt("MinLength", &Strings_MinLength)){
+                Strings_Loaded = false;
+                if (Strings_MinLength < 0) {
+                    Strings_MinLength = 0;
                 }
-                file = chosefile();
+                if (Strings_MinLength > 100) {
+                    Strings_MinLength = 100;
+                }
+            }
+            if (ImGui::Button("open file"))
+            {   
+                if (Strings_File)
+                {
+                    free(Strings_File);
+                    Strings_File = nullptr;
+                    Strings_Loaded = false;
+                }
+                Strings_File = chosefileload();
             }
 
-            if (file == nullptr)
+            if (Strings_File == nullptr)
             {
                 ImGui::Text("No file chosen");
             }
             else
             {
-                ImGui::Text("Chosen file: %s", file);
+                ImGui::Text("Chosen file: %s", Strings_File);
+                ImGui::Separator();
+                if (!Strings_Loaded){
+                    Strings_Text = extractStrings(Strings_File, Strings_MinLength);
+                }
+                ImGui::TextUnformatted(Strings_Text.c_str());
+                Strings_Loaded = true;
+
             }
         }
         ImGui::End();
+        #endif
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
