@@ -18,11 +18,12 @@ nfdchar_t* chosefileload() {
     }
 }
 
-bool isPrintable(char c) {
-    return std::isprint(static_cast<unsigned char>(c));
+bool isPrintable(char c, bool b) {
+    return b ? std::isprint(static_cast<unsigned char>(c)) 
+             : std::isalnum(static_cast<unsigned char>(c));
 }
 
-std::string extractStrings(const std::string& filepath, size_t minLength) {
+std::string extractStrings(const std::string& filepath, size_t minLength, bool usespecialandspace) {
     std::ifstream file(filepath, std::ios::binary);
     if (!file) {
         std::cerr << "Error: Could not open file: " << filepath << std::endl;
@@ -34,7 +35,7 @@ std::string extractStrings(const std::string& filepath, size_t minLength) {
     char c;
 
     while (file.get(c)) {
-        if (isPrintable(c)) {
+        if (isPrintable(c, usespecialandspace)) {
             currentString += c;
         } else {
             if (currentString.length() >= minLength) {
