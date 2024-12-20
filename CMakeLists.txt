@@ -12,7 +12,6 @@ include_directories(src/include)
 
 set(SRC_FILES
     src/main.cpp
-    src/utils.cpp
     src/strings.cpp
 )
 

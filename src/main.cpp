@@ -2,7 +2,7 @@
 using namespace std;
 
 //#include <nfd.h>
-#include "include/common.hpp"
+//#include "include/gmap_common.hpp"
 #include "include/strings.hpp"
 
 #include <GLFW/glfw3.h>
@@ -46,7 +46,7 @@ int main()
 
     #ifndef DEMO
     //setup
-    struct Strings_Data SD;
+    StringsManager stringsManager;
     #endif
 
     while (!glfwWindowShouldClose(window))
@@ -67,7 +67,7 @@ int main()
         #endif
 
         #ifndef DEMO
-        Strings_Loop(SD);
+        stringsManager.render();
         #endif
 
         ImGui::Render();

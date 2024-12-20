@@ -4,13 +4,30 @@
 #include <imgui.h>
 #include <nfd.h>
 
-struct Strings_Data
-{
-    nfdchar_t *Strings_File = nullptr;
-    std::string Strings_Text = "";
-    bool Strings_Loaded = false;
-    int Strings_MinLength = 10;
-    bool Strings_SpacialAndSpace = false;
-};
+class StringsManager {
+public:
+    StringsManager();
+    ~StringsManager();
 
-void Strings_Loop(Strings_Data &SD);
+    void render();
+
+private:
+    nfdchar_t* selectedFile;
+    std::string extractedText;
+    bool isLoaded;
+    bool failLoad;
+    int minStringLength;
+    bool includeSpecialCharacters;
+    bool showErrorPopup;        
+    std::string errorMessage;
+
+    void renderMinStringLengthInput();
+    void renderSpecialCharacterCheckbox();
+    void renderFileSelectionButton();
+    void processFileIfNeeded();
+    void clampMinStringLength();
+    void freeFile();
+    nfdchar_t* chooseFile();
+    bool isPrintable(char c, bool allowSpecial);
+    std::string extractStringsFromFile(const std::string& filepath, size_t minLength, bool allowSpecial);
+};
