@@ -4,7 +4,8 @@
 #include <imgui.h>
 #include <nfd.h>
 
-class StringsManager {
+class StringsManager
+{
 public:
     StringsManager();
     ~StringsManager();
@@ -12,13 +13,13 @@ public:
     void render();
 
 private:
-    nfdchar_t* selectedFile;
+    nfdchar_t *selectedFile;
     std::string extractedText;
     bool isLoaded;
     bool failLoad;
     int minStringLength;
     bool includeSpecialCharacters;
-    bool showErrorPopup;        
+    bool showErrorPopup;
     std::string errorMessage;
 
     void renderMinStringLengthInput();
@@ -27,7 +28,7 @@ private:
     void processFileIfNeeded();
     void clampMinStringLength();
     void freeFile();
-    nfdchar_t* chooseFile();
+    nfdchar_t *chooseFile();
     bool isPrintable(char c, bool allowSpecial);
-    std::string extractStringsFromFile(const std::string& filepath, size_t minLength, bool allowSpecial);
+    std::string extractStringsFromFile(const std::string &filepath, size_t minLength, bool allowSpecial);
 };

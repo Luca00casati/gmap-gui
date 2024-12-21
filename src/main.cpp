@@ -1,8 +1,5 @@
 #include <iostream>
-using namespace std;
-
-//#include <nfd.h>
-//#include "include/gmap_common.hpp"
+// #include "include/gmap_common.hpp"
 #include "include/strings.hpp"
 
 #include <GLFW/glfw3.h>
@@ -29,7 +26,7 @@ int main()
                                           nullptr, nullptr);
     if (window == nullptr)
     {
-        cout << "Could not create GLFW window" << endl;
+        std::cout << "Could not create GLFW window" << std::endl;
         glfwTerminate();
         return 1;
     }
@@ -44,10 +41,10 @@ int main()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 
-    #ifndef DEMO
-    //setup
+#ifndef DEMO
+    // setup
     StringsManager stringsManager;
-    #endif
+#endif
 
     while (!glfwWindowShouldClose(window))
     {
@@ -60,15 +57,14 @@ int main()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        //#define DEMO
-
-        #ifdef DEMO
+#ifdef DEMO
         ImGui::ShowDemoWindow(nullptr);
-        #endif
+#endif
 
-        #ifndef DEMO
+#ifndef DEMO
+        // real start
         stringsManager.render();
-        #endif
+#endif
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
