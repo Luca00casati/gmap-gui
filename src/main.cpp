@@ -1,6 +1,7 @@
 #include <iostream>
 // #include "include/gmap_common.hpp"
 #include "include/strings.hpp"
+#include "include/genpatch.hpp"
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -44,6 +45,7 @@ int main()
 #ifndef DEMO
     // setup
     StringsManager stringsManager;
+    PatchGenerator patchGenerator;
 #endif
 
     while (!glfwWindowShouldClose(window))
@@ -64,6 +66,7 @@ int main()
 #ifndef DEMO
         // real start
         stringsManager.render();
+        patchGenerator.Render();
 #endif
 
         ImGui::Render();

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <stdexcept>
-#include <lzma.h>
+#include <zstd.h>
 #include <imgui.h>
 #include <nfd.h>
 #include "include/genpatch.hpp"
@@ -172,29 +172,17 @@ void PatchGenerator::patchcompress(const std::string &in, const std::string &out
         throw std::runtime_error("Failed to write " + out);
     }
 
-    lzma_stream strm = LZMA_STREAM_INIT;
-    if (lzma_easy_encoder(&strm, LZMA_PRESET_DEFAULT, LZMA_CHECK_CRC64) != LZMA_OK)
+    size_t compressed_size = ZSTD_compressBound(in_size);
+    std::vector<unsigned char> out_buffer(compressed_size);
+
+    compressed_size = ZSTD_compress(out_buffer.data(), compressed_size, in_buffer.data(), in_size, 1); // Compression level set to 1 for fast compression
+
+    if (ZSTD_isError(compressed_size))
     {
-        throw std::runtime_error("Failed to initialize LZMA encoder");
+        throw std::runtime_error("Zstandard compression failed: " + std::string(ZSTD_getErrorName(compressed_size)));
     }
 
-    size_t out_buffer_size = in_size + in_size / 3 + 128;
-    std::vector<unsigned char> out_buffer(out_buffer_size);
-
-    strm.next_in = in_buffer.data();
-    strm.avail_in = in_size;
-    strm.next_out = out_buffer.data();
-    strm.avail_out = out_buffer_size;
-
-    lzma_ret ret = lzma_code(&strm, LZMA_FINISH);
-    if (ret != LZMA_STREAM_END)
-    {
-        lzma_end(&strm);
-        throw std::runtime_error("Failed to compress data");
-    }
-
-    fout.write(reinterpret_cast<char *>(out_buffer.data()), strm.total_out);
-    lzma_end(&strm);
+    fout.write(reinterpret_cast<char *>(out_buffer.data()), compressed_size);
 }
 
 unsigned long PatchGenerator::sizediffaddr(std::ifstream &fori, std::ifstream &fmod)

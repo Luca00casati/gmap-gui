@@ -65,6 +65,12 @@ elseif (UNIX)
     target_sources(nfd PRIVATE "${NFD_DIR}/src/nfd_zenity.c")
 endif()
 
+#zstd
+set(ZSTD_DIR "${LIBRARIES_DIR}/zstd")
+add_subdirectory("${ZSTD_DIR}/build/cmake")
+set(ZSTD_BUILD_STATIC ON)
+target_link_libraries(${PROJECT_NAME} libzstd_static)
+
 # Windows-specific options
 if(WIN32)
     # disable console
